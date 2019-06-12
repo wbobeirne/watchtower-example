@@ -1,0 +1,7 @@
+btcd/data
+btcd/logs
+nodes/*/data
+nodes/*/logs
+nodes/*/tls.*
+nodes/attacker-evil
+nodes/attacker-honest
