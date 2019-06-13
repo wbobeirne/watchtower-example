@@ -4,6 +4,19 @@
 * `btcd`
 * 5 different terminal windows open
 
+## Setup
+
+To run watchtowers at the time of writing, we'll need to checkout some as of yet unmerged code from [this pull request](https://github.com/lightningnetwork/lnd/pull/3133), and recompile LND. If you see the PR as merged, you can do the following on the `master` branch instead of the PR branch.
+
+These commands assume you've already installed LND before. Make sure you've turned off any running nodes before doing this.
+
+```bash
+cd $GOPATH/src/github.com/lightningnetwork/lnd
+git fetch origin pull/3133/head:wt-polish
+git checkout wt-polish
+make clean && make && make install
+```
+
 ## Walthrough
 
 ### 1. Initial Setup
