@@ -1,3 +1,7 @@
+# Watchtower Example Demo
+
+Give LND's watchtowers a shot with your own simulated channel breach!
+
 ## Requirements
 
 * `lnd`
