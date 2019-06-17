@@ -10,14 +10,14 @@ Give LND's watchtowers a shot with your own simulated channel breach!
 
 ## Setup
 
-To run watchtowers at the time of writing, we'll need to checkout some as of yet unmerged code from [this pull request](https://github.com/lightningnetwork/lnd/pull/3133), and recompile LND. If you see the PR as merged, you can do the following on the `master` branch instead of the PR branch.
+To run watchtowers at the time of writing, we'll need to be on the latest version of `master` as it includes code from [this pull request](https://github.com/lightningnetwork/lnd/pull/3133) that isn't yet in a full release. With that version of LND's code, we'll recompile and run through the exercise.
 
 These commands assume you've already installed LND before. Make sure you've turned off any running nodes before doing this.
 
 ```bash
 cd $GOPATH/src/github.com/lightningnetwork/lnd
-git fetch origin pull/3133/head:wt-polish
-git checkout wt-polish
+git checkout master
+git pull origin master
 make clean && make && make install
 ```
 
@@ -25,7 +25,7 @@ make clean && make && make install
 
 ### 1. Initial Setup
 
-We need to setup our two nodes, `attacker` and `victim`. Config files have already been created for them, you just need to get them started.
+We need to setup our three nodes, the `attacker`, the `victim`, and the `watchtower`. Config files have already been created for them, you just need to get them started.
 
 ```sh
 # Window 1
