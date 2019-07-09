@@ -17,8 +17,8 @@ These commands assume you've already installed LND before. Make sure you've turn
 ```bash
 cd $GOPATH/src/github.com/lightningnetwork/lnd
 git pull
-git checkout v0.7.0-beta-rc1
-make clean && make && make install
+git checkout v0.7.0-beta
+make clean && make && make install tags="watchtowerrpc"
 ```
 
 ## Walthrough
@@ -52,7 +52,7 @@ In order to configure our victim to use our watchtower, we need to know the watc
 
 ```sh
 # Window 5
-cmd/lncli-watchtower.sh getinfo # Copy the "identity_pubkey" from this
+cmd/lncli-watchtower.sh tower info # Copy the "pubkey" from this
 ```
 
 Then open up `nodes/victim/lnd.conf`, and uncomment the bottom and add the watchtower's pubkey to the indicated spot. It should look something like this:
@@ -130,7 +130,7 @@ cmd/lncli-attacker.sh sendpayment --pay_req [pay_req] # Use the pay_req from bef
 cmd/lncli-attacker.sh listchannels # Confirm the "remote_balance" is now 1000000
 ```
 
-With that payment made, you'll want to turn off your attacker node in window 3 with a `ctrl+c`, and copy the old directory back in:
+With that payment made, you'll want to turn off your attacker node in window 3 with a `CTRL+C`, and copy the old directory back in:
 
 ```sh
 # Window 3
@@ -169,11 +169,14 @@ You'll know it all worked if you see the following in the watchtower's logs in W
 
 ```
 [INF] WTWR: Found 1 breach in (height=1366, hash=<hash>)
-[INF] WTWR: Dispatching punisher for client <victim-pubkey>, breach-txid=<breach-txid>
-[INF] WTWR: Publishing justice transaction for client=<victim-pubkey> with txid=<justice-txid>
+[INF] WTWR: Dispatching punisher for client <session-pubkey>, breach-txid=<breach-txid>
+[INF] WTWR: Publishing justice transaction for client=<session-pubkey> with txid=<justice-txid>
 [INF] LNWL: Inserting unconfirmed transaction <justice-txid>
-[INF] WTWR: Punishment for client <victim-pubkey> with breach-txid=<justice-txid> dispatched
+[INF] WTWR: Punishment for client <session-pubkey> with breach-txid=<justice-txid> dispatched
 ```
+
+NOTE: The `session-pubkey` will not match up with the victim's node pubkey, this
+key is rotated periodically to increase privacy for clients of a watchtower.
 
 Mine a few more blocks, start the victim's node back up, and you'll find the reward (minus fees) sitting in the victim's wallet:
 
